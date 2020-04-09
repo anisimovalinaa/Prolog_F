@@ -17,43 +17,40 @@ write_list_str([H|T]):-write_str(H),nl,write_list_str(T).
 pr:-see('C:/Users/ASUS/Desktop/Мое/2 курс/Prolog/file.txt'),
     read_str_str(A),seen,dell_words(A,B),
     write_list_str(B).
+
 new_str_str(A):-dell_words(A,B).
 
-dell_words(A,B):-dell_words(A,A,[],[],[],0,B).
+dell_words(A,B):-dell_words(A,A,[],[],[],B).
 
-dell_words([],_,Str,B,_,0,C):-append(B,[Str],B1),C = B1,!.
-dell_words([],A,Str,B,Word,1,C):-repeat_word(A,Word,K),K<4,
-    append(Str,Word,Str1),append(B,[Str1],B1),C = B1,!.
-dell_words([],_,Str,B,_,1,C):-append(B,[Str],B1),C = B1,!.
+dell_words([],_,Str,B,[],B1):-append(B,[Str],B2),B1=B2.
+dell_words([],A,Str,B,Word,B1):-repeat_word(A,Word,K),K>4,append(B,[Str],B2),B1=B2,!.
+dell_words([],_,Str,B,Word,B1):-append(Str,Word,Str1),append(B,[Str1],B2),B1=B2.
 
-dell_words([[]|T],A,Str,B,_,0,C):-append(B,[Str],B1),dell_words(T,A,[],B1,_,0,C),!.
-dell_words([[]|T],A,Str,B,Word,1,C):-repeat_word(A,Word,K),K<4,
-    append(Str,Word,Str1),append(B,[Str1],B1),dell_words(T,A,[],B1,[],0,C),!.
-dell_words([[]|T],A,Str,B,_,1,C):-append(B,Str,B1),dell_words(T,A,[],B1,[],0,C),!.
+dell_words([[]|T],A,Str,B,[],B1):-append(B,[Str],B2),dell_words(T,A,[],B2,[],B1).
+dell_words([[]|T],A,Str,B,Word,B1):-repeat_word(A,Word,K),K>4,append(B,[Str],B2),dell_words(T,A,[],B2,[],B1),!.
+dell_words([[]|T],A,Str,B,Word,B1):-append(Str,Word,Str1),append(B,[Str1],B2),dell_words(T,A,[],B2,[],B1).
 
-dell_words([[H1|T1]|T],A,Str,B,Word,0,C):-H1=32,append(Str,[H1],Str1),
-    dell_words([T1|T],A,Str1,B,Word,0,C),!.
-dell_words([[H1|T1]|T],A,Str,B,Word,0,C):-append(Word,[H1],Word1),
-    dell_words([T1|T],A,Str,B,Word1,1,C),!.
-dell_words([[H1|T1]|T],A,Str,B,Word,1,C):-append(Word,[H1],Word1),
-    dell_words([T1|T],A,Str,B,Word1,1,C),!.
-dell_words([[H1|T1]|T],A,Str,B,Word,1,C):-H1=32,repeat_word(A,Word,K),K<4,
-    append(Str,Word,Str1),dell_words([T1|T],A,Str1,B,[],0,C),!.
-dell_words([[H1|T1]|T],A,Str,B,_,1,C):-H1=32,dell_words([T1|T],A,Str,B,[],0,C).
+dell_words([[H1|T1]|T],A,Str,B,[],B1):-H1=32,append(Str,[H1],Str1),dell_words([T1|T],A,Str1,B,[],B1),!.
+dell_words([[H1|T1]|T],A,Str,B,[],B1):-append([],[H1],Word),dell_words([T1|T],A,Str,B,Word,B1),!.
+dell_words([[H1|T1]|T],A,Str,B,Word,B1):-H1\=32,append(Word,[H1],Word1),dell_words([T1|T],A,Str,B,Word1,B1),!.
+dell_words([[H1|T1]|T],A,Str,B,Word,B1):-repeat_word(A,Word,K),K>4,append(Str,[H1],Str1),dell_words([T1|T],A,Str1,B,[],B1),!.
+dell_words([[_|T1]|T],A,Str,B,Word,B1):-append(Str,Word,Str1),append(Str1,[32],Str2),dell_words([T1|T],A,Str2,B,[],B1).
 
+skip_word([],[]):-!.
+skip_word([32|T],T):-!.
+skip_word([_|T],A):-skip_word(T,A).
 
 repeat_word(A,Word,K):-r_w(A,Word,Word,0,K,0).
 
+r_w([],[],_,I,K,1):-I1 is I+1,K=I1,!.
 r_w([],_,_,K,K,_):-!.
-r_w([[H1|T1]|T],[],Word,I,K,1):-(H1=32;H1=10),I1 is I+1,r_w([T1|T],Word,Word,I1,K,0),!.
-r_w([[_|T1]|T],[],Word,I,K,1):-r_w([T1|T],[],Word,I,K,0).
-r_w([[H1|T1]|T],[],Word,I,K,0):-(H1\=32;H1\=10),r_w([T1|T],[],Word,I,K,0),!.
-r_w([T1|T],[],Word,I,K,0):-r_w([T1|T],Word,Word,I,K,0),!.
 
+r_w([[]|T],[],Word,I,K,1):-I1 is I+1,r_w(T,Word,Word,I1,K,0),!.
 r_w([[]|T],_,Word,I,K,_):-r_w(T,Word,Word,I,K,0),!.
 
-r_w([[H1|T1]|T],[HW|_],Word,I,K,0):-H1\=HW,r_w([T1|T],Word,Word,I,K,0),!.
-r_w([[H1|T1]|T],[HW|TW],Word,I,K,0):-r_w([T1|T],TW,Word,I,K,1),!.
-r_w([[H1|T1]|T],[HW|TW],Word,I,K,1):-HW=H1,r_w([T1|T],TW,Word,I,K,1),!.
-r_w([[_|T1]|T],_,Word,I,K,1):-r_w([T1|T],Word,Word,I,K,0).
+r_w([[H1|T1]|T],[HW|TW],Word,I,K,0):-H1=HW,r_w([T1|T],TW,Word,I,K,1),!.
+r_w([[H1|T1]|T],W,Word,I,K,0):-skip_word([H1|T1],A),r_w([A|T],W,Word,I,K,0),!.
+r_w([[H1|T1]|T],[HW|TW],Word,I,K,1):-H1=HW,r_w([T1|T],TW,Word,I,K,1),!.
+r_w([[H1|T1]|T],_,Word,I,K,1):-skip_word([H1|T1],A),r_w([A|T],Word,Word,I,K,0),!.
+r_w([[H1|T1]|T],_,Word,I,K,1):-H1=32,I1 is I+1,r_w([T1|T],Word,Word,I1,K,0).
 
