@@ -15,7 +15,8 @@ write_list_str([]):-!.
 write_list_str([H|T]):-write_str(H),nl,write_list_str(T).
 
 pr:-see('C:/Users/ASUS/Desktop/Мое/2 курс/Prolog/file.txt'),
-    read_str_str(A),seen,new_str_str(A,B),write_list_str(B).
+    tell('C:/Users/ASUS/Desktop/Мое/2 курс/Prolog/result.txt'),
+    read_str_str(A),seen,new_str_str(A,B),write_list_str(B),told.
 
 new_str_str(A,C):-dell_words(A,B),add_words(B,C).
 
@@ -47,10 +48,10 @@ dell_words([[_|T1]|T],A,Str,B,Word,B1):-append(Str,Word,Str1),
 
 add_words([Str|T],B):-add_words([Str|T],[Str|T],Str,[],[],B).
 
-add_words([],_,Str,B1,[],B):-append(B1,[Str],B2),B=B2,!.
-add_words([],A,Str,B1,Word,B):-repeat_word(A,Word,K),K\=1,
+add_words([[]],_,Str,B1,[],B):-append(B1,[Str],B2),B=B2,!.
+add_words([[]],A,Str,B1,Word,B):-repeat_word(A,Word,K),K\=1,
     append(B1,[Str],B2),B=B2,!.
-add_words([],_,Str,B1,Word,B):-append(Str,[32],Str1),
+add_words([[]],_,Str,B1,Word,B):-append(Str,[32],Str1),
     append(Str1,Word,Str2),append(B1,[Str2],B2),B=B2,!.
 
 add_words([[]|[C|T]],A,Str,B1,[],B):-append(B1,[Str],B2),
@@ -63,12 +64,12 @@ add_words([[]|[C|T]],A,Str,B1,Word,B):-append(Str,[32],Str1),
 
 add_words([[H1|T1]|T],A,Str,B1,[],B):-H1=32,
     add_words([T1|T],A,Str,B1,[],B),!.
-add_words([[H1|T1]|T],A,Str,B1,[],B):-add_words([T1|T],A,Str,B1,[H1],B).
+add_words([[H1|T1]|T],A,Str,B1,[],B):-add_words([T1|T],A,Str,B1,[H1],B),!.
 add_words([[H1|T1]|T],A,Str,B1,Word,B):-H1\=32,append(Word,[H1],Word1),
     add_words([T1|T],A,Str,B1,Word1,B),!.
 add_words([[H1|T1]|T],A,Str,B1,Word,B):-repeat_word(A,Word,K),K=1,
     append(Str,[H1],Str1),append(Str1,Word,Str2),
-    add_words([T1|T],A,Str2,B1,[],B).
+    add_words([T1|T],A,Str2,B1,[],B),!.
 add_words([[_|T1]|T],A,Str,B1,_,B):-add_words([T1|T],A,Str,B1,[],B).
 
 skip_word([],[]):-!.
