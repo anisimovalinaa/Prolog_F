@@ -50,12 +50,12 @@ let rec fib N =
 //    System.Console.WriteLine(A)
 
 let del x y =
-    if x % y = 0 then false
-                 else true
+    if x % y = 0 then true
+                 else false
 
 let rec pr1 x y = 
     if x = y then true 
-    else (del x y) && (pr1 x (y+1))
+    else not(del x y) && (pr1 x (y+1))
 
 let pr x = 
     match x with
@@ -79,18 +79,55 @@ let rec sumDigit x =
 //    let A = sumDigit n
 //    System.Console.WriteLine(A)
 
-//let rec npd x =
-//    if pr x then x
-//    else 
+let rec npd1 x y =
+    if (del x y) && (pr y) then y
+    else npd1 x (y-1)
 
-let pr1_8 =
-    let n = System.Convert.ToInt32(System.Console.ReadLine())
+let npd x =
+    if pr x then x
+    else npd1 x (x-1)
 
-    let A = sumDigit n
+//let p1_8 =
+//    let n = System.Convert.ToInt32(System.Console.ReadLine())
+
+//    let A = npd n
+//    System.Console.WriteLine(A)
+
+let min x y =
+    if x<y then x
+    else y
+
+let rec nod a b = 
+    let min1 = min a b
+    let c = max a b - min1
+    if c=0 then a
+    else nod min1 c 
+
+//let p1_9 = 
+//    let a = System.Convert.ToInt32(System.Console.ReadLine())
+//    let b = System.Convert.ToInt32(System.Console.ReadLine())
+
+//    let A = nod a b
+//    System.Console.WriteLine(A)
+
+let rec eiler1 x y k =
+    match y with
+        | 0 -> k
+        | _ -> if nod x y = 1 then eiler1 x (y-1) (k+1)
+               else eiler1 x (y-1) k
+
+let eiler x =
+    if pr x then (x-1)
+    else eiler1 x (x-1) 0
+
+let p1_10 =
+    let a = System.Convert.ToInt32(System.Console.ReadLine())
+
+    let A = eiler a
     System.Console.WriteLine(A)
 
 [<EntryPoint>]
 let main argv =
-    p1_8  
+    p1_10
 
     0 // return an integer exit code
