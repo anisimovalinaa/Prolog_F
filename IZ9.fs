@@ -15,27 +15,24 @@ let pr x =
     | 2 -> true
     | _ -> pr1 x 2
 
-let check x = 
-    let mutable k = false
-    for i in (x-1) .. -1 .. 2 do
-        if pr i && k=false then let b : double = Math.Sqrt(Convert.ToDouble(x-i)/2.0)
-                                if (Convert.ToDouble(Convert.ToInt32(b))=b) then k <- true
-                                                                      //System.Console.Write(x)
-                                                                      //System.Console.Write("=")
-                                                                      //System.Console.Write(i)
-                                                                      //System.Console.Write("+2*")
-                                                                      //System.Console.Write(b)
-                                                                      //System.Console.WriteLine("^2")                                                                                     
-    if k = false then false
-    else true
+let rec Check x y f = 
+    match f with
+    | false -> if y>1 then if (pr y) then let b : double = Math.Sqrt(Convert.ToDouble(x-y)/2.0)
+                                          if (Convert.ToDouble(Convert.ToInt32(b))=b) then Check x (y-1) true
+                                          else Check x (y-1) f
+                           else Check x (y-1) f
+               else false
+    | true -> true
+
+let rec FindNumber n f =
+    match f with
+    | false -> if (n%2<>0) && not(pr n) then if not(Check n (n-1) false) then FindNumber (n+1) true
+                                             else FindNumber (n+1) f
+               else FindNumber (n+1) f
+    | true -> System.Console.WriteLine(n-1)
 
 [<EntryPoint>]
 let main argv =
-    //let x = System.Convert.ToInt32(System.Console.ReadLine())  
-    let mutable f = false
-    for i in 2..6000 do
-        if (i%2<>0) && not(pr i) && f=false then
-            if not(check i) then System.Console.WriteLine(i)
-                                 f <- true
+    FindNumber 2 false
 
     0 // return an integer exit code
