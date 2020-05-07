@@ -42,13 +42,19 @@ let rec new_list1 l1 l2 l3 =
 let rec new_list2 l1 l2 l3 list = 
     match l1 with 
     | [] -> list
-    | h::t -> if (count l2 h = 1) && not(find h l3) then h::list
-              else list
+    | h::t -> if (count l2 h = 1) && not(find h l3) then new_list2 t l2 l3 (h::list)
+              else new_list2 t l2 l3 list
 
 let new_list l1 l2 =
-    let list = new_list1 l1 l1 l2
-    new_list2 l2 l2 l1 list
+    new_list2 l2 l2 l1 (new_list1 l1 l1 l2)
 
+//let rec q l1 l2 =
+//    match l1, l2 with
+//    | [],[] -> []
+//    | h1::t1,[] -> let tail = q t1 l2
+//                   if (count l1 h1 = 1) then h1::tail
+//                   else tail
+//    | [], h2::t2 -> 
 
 [<EntryPoint>]
 let main argv =
@@ -60,7 +66,6 @@ let main argv =
     System.Console.Write("n = ")
     let n2 = System.Convert.ToInt32(System.Console.ReadLine())
     let list2 = read_list n2
-    printfn ""
-    let list3 = new_list list1 list2
-    write_list list3
+    System.Console.WriteLine("Новый список:")
+    write_list (new_list list1 list2)
     0 // return an integer exit code
