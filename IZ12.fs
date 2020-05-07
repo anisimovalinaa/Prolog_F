@@ -9,11 +9,6 @@ let rec read_list n =
     let Tail = read_list (n-1)
     Head::Tail
 
-//let read_data = 
-//    lazy 
-//        let n = System.Convert.ToInt32(System.Console.ReadLine())
-//        read_list n
-
 let rec write_list list = 
     match list with
     |[] -> 0
@@ -32,40 +27,32 @@ let rec find el list =
     | head::tail -> if (head = el) then true
                     else find el tail
 
-let rec new_list1 l1 l2 l3 =
-    match l1 with 
+let rec new_list1 secondList subList firstList =
+    match secondList with 
     | [] -> []
-    | h1::t1 -> let tail = new_list1 t1 l2 l3
-                if (count l2 h1 = 1) && not(find h1 l3) then h1::tail
-                else tail   
+    | h::t -> let tail = new_list1 t subList firstList
+              if (count subList h = 1) && not(find h firstList) then h::tail
+              else tail   
 
-let rec new_list2 l1 l2 l3 list = 
-    match l1 with 
-    | [] -> list
-    | h::t -> if (count l2 h = 1) && not(find h l3) then new_list2 t l2 l3 (h::list)
-              else new_list2 t l2 l3 list
-
-let new_list l1 l2 =
-    new_list2 l2 l2 l1 (new_list1 l1 l1 l2)
-
-//let rec q l1 l2 =
-//    match l1, l2 with
-//    | [],[] -> []
-//    | h1::t1,[] -> let tail = q t1 l2
-//                   if (count l1 h1 = 1) then h1::tail
-//                   else tail
-//    | [], h2::t2 -> 
+let rec new_list firstList subList secondList resultList = 
+    match firstList with 
+    | [] -> resultList
+    | h::t -> if (count subList h = 1) && not(find h secondList) then new_list t subList secondList (h::resultList)
+              else new_list t subList secondList resultList
 
 [<EntryPoint>]
 let main argv =
     System.Console.WriteLine("Введите первый список:")
     System.Console.Write("n = ")
     let n1 = System.Convert.ToInt32(System.Console.ReadLine())
-    let list1 = read_list n1
+    let firstList = read_list n1
     System.Console.WriteLine("Введите второй список:")
     System.Console.Write("n = ")
     let n2 = System.Convert.ToInt32(System.Console.ReadLine())
-    let list2 = read_list n2
+    let secondList = read_list n2
     System.Console.WriteLine("Новый список:")
-    write_list (new_list list1 list2)
+    //System.Console.WriteLine(new_list list1 list2)
+    //let q = new_list2 list2 list2 list1 (new_list1 list1 list1 list2)
+
+    write_list (new_list firstList firstList secondList (new_list1 secondList secondList firstList))
     0 // return an integer exit code
