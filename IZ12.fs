@@ -34,12 +34,18 @@ let rec new_list1 secondList subList firstList =
               if (count subList h = 1) && not(find h firstList) then h::tail
               else tail   
 
-let rec new_list firstList subList secondList resultList = 
-    match firstList with 
-    | [] -> resultList
-    | h::t -> if (count subList h = 1) && not(find h secondList) then new_list t subList secondList (h::resultList)
-              else new_list t subList secondList resultList
+//let rec newList firstList subList secondList resultList = 
+//    match firstList with 
+//    | [] -> resultList
+//    | h::t -> if (count subList h = 1) && not(find h secondList) then newList t subList secondList (h::resultList)
+//              else newList t subList secondList resultList
 
+let rec new_list firstList secondList =
+   let c = new_list1 firstList firstList secondList
+   let d = new_list1 secondList secondList firstList
+
+   c@d
+    
 [<EntryPoint>]
 let main argv =
     System.Console.WriteLine("Введите первый список:")
@@ -51,8 +57,7 @@ let main argv =
     let n2 = System.Convert.ToInt32(System.Console.ReadLine())
     let secondList = read_list n2
     System.Console.WriteLine("Новый список:")
-    //System.Console.WriteLine(new_list list1 list2)
-    //let q = new_list2 list2 list2 list1 (new_list1 list1 list1 list2)
 
-    write_list (new_list firstList firstList secondList (new_list1 secondList secondList firstList))
+    //write_list (newList firstList firstList secondList (new_list1 secondList secondList firstList))
+    write_list (q firstList secondList)
     0 // return an integer exit code
