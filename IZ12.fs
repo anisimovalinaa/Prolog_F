@@ -59,5 +59,5 @@ let main argv =
     System.Console.WriteLine("Новый список:")
 
     //write_list (newList firstList firstList secondList (new_list1 secondList secondList firstList))
-    write_list (q firstList secondList)
+    write_list (new_list firstList secondList)
     0 // return an integer exit code
