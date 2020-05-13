@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    ".NETFramework,Version=v4.7.2": {
+    ".NETFramework,Version=v4.5.1": {
       "FSharp.Core/4.7.0": {
         "type": "package",
         "compile": {
@@ -51,9 +51,18 @@
             "locale": "zh-Hant"
           }
         }
+      },
+      "System.ValueTuple/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.ValueTuple.dll": {}
+        }
       }
     },
-    ".NETFramework,Version=v4.7.2/win7-x86": {
+    ".NETFramework,Version=v4.5.1/win7-x86": {
       "FSharp.Core/4.7.0": {
         "type": "package",
         "compile": {
@@ -102,6 +111,15 @@
           "lib/net45/zh-Hant/FSharp.Core.resources.dll": {
             "locale": "zh-Hant"
           }
+        }
+      },
+      "System.ValueTuple/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.ValueTuple.dll": {}
         }
       }
     }
@@ -151,11 +169,57 @@
         "lib/netstandard2.0/zh-Hans/FSharp.Core.resources.dll",
         "lib/netstandard2.0/zh-Hant/FSharp.Core.resources.dll"
       ]
+    },
+    "System.ValueTuple/4.4.0": {
+      "sha512": "BahUww/+mdP4ARCAh2RQhQTg13wYLVrBb9SYVgW8ZlrwjraGCXHGjo0oIiUfZ34LUZkMMR+RAzR7dEY4S1HeQQ==",
+      "type": "package",
+      "path": "system.valuetuple/4.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net461/System.ValueTuple.dll",
+        "lib/net461/System.ValueTuple.xml",
+        "lib/net47/System.ValueTuple.dll",
+        "lib/net47/System.ValueTuple.xml",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.0/System.ValueTuple.dll",
+        "lib/netstandard1.0/System.ValueTuple.xml",
+        "lib/netstandard2.0/_._",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.xml",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net461/System.ValueTuple.dll",
+        "ref/net461/System.ValueTuple.xml",
+        "ref/net47/System.ValueTuple.dll",
+        "ref/net47/System.ValueTuple.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard2.0/_._",
+        "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.valuetuple.4.4.0.nupkg.sha512",
+        "system.valuetuple.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
     }
   },
   "projectFileDependencyGroups": {
-    ".NETFramework,Version=v4.7.2": [
-      "FSharp.Core >= 4.7.0"
+    ".NETFramework,Version=v4.5.1": [
+      "FSharp.Core >= 4.7.0",
+      "System.ValueTuple >= 4.4.0"
     ]
   },
   "packageFolders": {
@@ -175,24 +239,28 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net472"
+        "net451"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net472": {
+        "net451": {
           "projectReferences": {}
         }
       }
     },
     "frameworks": {
-      "net472": {
+      "net451": {
         "dependencies": {
           "FSharp.Core": {
             "target": "Package",
             "version": "[4.7.0, )"
+          },
+          "System.ValueTuple": {
+            "target": "Package",
+            "version": "[4.4.0, )"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"

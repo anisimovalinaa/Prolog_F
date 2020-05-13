@@ -18,24 +18,28 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net472"
+          "net451"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net472": {
+          "net451": {
             "projectReferences": {}
           }
         }
       },
       "frameworks": {
-        "net472": {
+        "net451": {
           "dependencies": {
             "FSharp.Core": {
               "target": "Package",
               "version": "[4.7.0, )"
+            },
+            "System.ValueTuple": {
+              "target": "Package",
+              "version": "[4.4.0, )"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"

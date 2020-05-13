@@ -34,34 +34,33 @@ let rec createList a b list =
     | _ -> if (a.[0] = ' ') then createList (a.Remove(0,1)) "" (Convert.ToInt32(b)::list)
            else createList (a.Remove(0,1)) (b+(a.[0].ToString())) list
 
-let rec function1 l1 l2 subList (subList1: 'a list) rezList max = 
-    match l1, l2 with  
-    | _, [] -> if (max < subList1.Length) then subList1
-               else rezList
-    | [], _ -> if (max < subList1.Length) then function1 subList l2.Tail subList [] subList1 subList1.Length
-               else function1 subList l2.Tail subList [] rezList max
-    | _, _ -> if (l1.Head = l2.Head) then function1 l1.Tail l2.Tail subList (l1.Head::subList1) rezList max
-              else if (max < subList1.Length) then function1 subList l2.Tail subList [] subList1 subList1.Length
-                   else function1 subList l2.Tail subList [] rezList max
+let rec remove list i =
+    match i, list with
+    |0, _ -> list
+    |_, head::tail -> remove (tail) (i-1)
 
-let rec function2 listF (listS: 'a list) resultList max = 
-    match listF with
-    | [] -> resultList
-    | _ -> let listR = function1 listF listS listF [] [] max
-           if (listR.Length>max) then function2 listF.Tail listS listR listR.Length
-           else function2 listF.Tail listS resultList max
+let rec new_sublist list1 list2 new_list =
+    if (List.isEmpty list1 || List.isEmpty list2) then new_list
+    else
+    match List.tryHead list1 = List.tryHead list2 with
+    |false -> new_list
+    |true -> new_sublist (List.tail list1) (List.tail list2) ((List.head list1)::new_list)
 
-let f1 list1 list2 = 
-    let r = List.map (fun x -> function1 list1 list2 list1 [] [] 0) list1
-    //let r = List.fold (fun acc x -> x::acc) [] list1
-    r
+let sublist list1 list2 =
+    let firstListIndex = List.mapi (fun i x -> i) list1
+    let secondListIndex = List.mapi (fun i x -> i) list2
+    List.fold2 (fun acc f_elem index1 -> 
+                                (List.fold2 (fun acc2 s_elem index2 -> 
+                                                                    if (f_elem = s_elem) then let new_list = new_sublist (remove list1 index1) (remove list2 index2) []
+                                                                                              if (List.length new_list > List.length acc2) then new_list
+                                                                                              else acc2
+                                                                    else acc2
+                                ) [] list2 secondListIndex)::acc
+                                ) [] list1 firstListIndex
 
-let new_list list1 list2 =
-    match list1, list2 with
-    | [], [] -> []
-    | [], _ -> []
-    | _, [] -> []
-    | _, _ -> function2 list1 list2 [] 0
+let max_sublist list = 
+    List.fold (fun acc elem ->if (List.length elem > List.length acc) then elem
+                               else acc) [] list 
 
 form.Controls.Add(label1)
 form.Controls.Add(label2)
@@ -75,7 +74,8 @@ button.Click.Add(fun evArgs -> let a = posled1.Text
                                let b = posled2.Text
                                let list1 = createList a "" []
                                let list2 = createList b "" []
-                               let rezList = f1 list1 list2
+                               let list_list = sublist list1 list2
+                               let rezList = max_sublist list_list
                                List.iter (fun x -> answer.AppendText(x.ToString() + " ")) rezList
                                |> ignore)
 
