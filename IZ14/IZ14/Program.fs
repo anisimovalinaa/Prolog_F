@@ -38,8 +38,16 @@ form.Controls.Add(answer)
 
 type 'T Tree =
     Empty
-    //|Leaf of 'T
     | Node of 'T*('T Tree)*('T Tree)
+
+let fold_tree f list tree =
+    let rec loop t l =
+        match t with
+        |Empty -> l
+        |Node (z,L,R) -> loop L (f z (loop R l))
+    loop tree list
+
+let tree_to_list T = fold_tree (fun x t -> x::t) [] T
 
 let rec insert x = function
     Empty->Node(x,Empty,Empty)
@@ -51,9 +59,9 @@ let rec string_to_tree word tree =
     | "" -> tree
     | _ -> string_to_tree (word.Remove(0,1)) (insert word.[0] tree)
 
-let rec tree_to_list = function
-    Empty -> []
-    |Node(v, L, R) -> (tree_to_list L)@[v]@(tree_to_list R)
+//let rec tree_to_list = function
+//    Empty -> []
+//    |Node(v, L, R) -> (tree_to_list L)@[v]@(tree_to_list R)
 
 let check word1 word2 = 
     if (tree_to_list (string_to_tree word1 Empty)) = (tree_to_list (string_to_tree word2 Empty)) then true
